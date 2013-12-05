@@ -1,0 +1,85 @@
+<div class="row">
+  <div class="white">
+
+    <div class="row">
+      <div class="col-md-6">
+        <label for="select-storage-type">
+          Choose storage
+        </label>
+        <select name="to_parse" id="select-storage-type" class="form-control" data-type="memory">
+        {{#each memory}}
+          <option value="{{print this}}">{{this.type}} {{this.value}} GB</option>
+        {{/each}}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="select-storage-type">
+          Choose processor
+        </label>
+        <select name="to_parse" id="select-storage-type" class="form-control" data-type="processor">
+        {{#each processor}}
+          <option value="{{print this}}">{{this.type}} {{this.value}} HZ</option>
+        {{/each}}
+        </select>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label for="select-storage-type">
+          Choose ozu
+        </label>
+        <select name="to_parse" id="select-storage-type" class="form-control" data-type="ozu">
+        {{#each ozu}}
+          <option value="{{print this}}">{{this.type}} {{this.value}} MB</option>
+        {{/each}}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="select-storage-type">
+          Choose video
+        </label>
+        <select name="to_parse" id="select-storage-type" class="form-control" data-type="video">
+        {{#each video}}
+          <option value="{{print this}}">{{this.value}} MB</option>
+        {{/each}}
+        </select>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="select-weight-type">
+          Choose weight
+        </label>
+        <select name="" id="select-weight-type" class="form-control" data-type="ozu">
+          <option value="light">Light Weight</option>
+          <option value="middle">Middle Weight</option>
+          <option value="big">Big Weight</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="select-weight-kg-type">
+          Choose weight in kg
+        </label>
+        <select name="" id="select-weight-kg-type" class="form-control" data-type="video">
+          <option value=""></option>
+        </select>
+      </div>
+    </div>
+
+    <br>
+
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="find-something">Find something...</button>
+
+
+    <div class="performance-place" style="display:none;">
+      <br>
+       <h4>Performance value is :  <span id="performance-place-value"></span> </h4>
+    </div>
+
+  </div>
+</div>
