@@ -55,19 +55,17 @@
         <label for="select-weight-type">
           Choose weight
         </label>
-        <select name="" id="select-weight-type" class="form-control" data-type="ozu">
+        <select name="" id="select-weight-type" class="form-control select-on-change">
           <option value="light">Light Weight</option>
           <option value="middle">Middle Weight</option>
           <option value="big">Big Weight</option>
         </select>
       </div>
       <div class="col-md-6">
-        <label for="select-weight-kg-type">
-          Choose weight in kg
+        <label for="select-weight-kg-type" id="js-select-change">
+          W can be between 1 kg and 2 kg
         </label>
-        <select name="" id="select-weight-kg-type" class="form-control" data-type="video">
-          <option value=""></option>
-        </select>
+        <input type="text" id="js-select-weight-kg-type" class="form-control" placeholder="Type weight in gramms">
       </div>
     </div>
 

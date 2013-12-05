@@ -143,7 +143,7 @@ types.super = {
 
 
 var weight_types = {};
-weight_types['lightweight'] = {
+weight_types['light'] = {
   rise : {
     start : 1000,
     end : 1000
@@ -157,7 +157,7 @@ weight_types['lightweight'] = {
     end : 2000
   }
 };
-weight_types['middleweight'] = {
+weight_types['middle'] = {
   rise : {
     start : 1500,
     end : 2000
@@ -171,7 +171,7 @@ weight_types['middleweight'] = {
     end : 3200
   }
 }
-weight_types['heavyweight'] = {
+weight_types['big'] = {
   rise : {
     start : 2800,
     end : 3400

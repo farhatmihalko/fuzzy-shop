@@ -28,7 +28,10 @@ collection['content-params'] = Marionette.ItemView.extend({
 
   ui : {
     performancePlace : '.performance-place',
-    value : '#performance-place-value'
+    value : '#performance-place-value',
+    input : '#js-select-change',
+    wSelect: '#select-weight-type',
+    wInput : '#js-select-weight-kg-type'
   },
 
   initialize: function(opts){
@@ -36,7 +39,8 @@ collection['content-params'] = Marionette.ItemView.extend({
   },
 
   events : {
-    'click #find-something' : 'find'
+    'click #find-something' : 'find',
+    'change .select-on-change' : 'weight'
   },
 
   'find' : function(){
@@ -50,17 +54,48 @@ collection['content-params'] = Marionette.ItemView.extend({
       prepare[el.attr('data-type')] = val;
     }
 
+    var wType  = this.ui.wSelect.val();
+    var wValue = this.ui.wInput.val();
+
     var result = fuzzy.calculatePerformanceOfComputer(prepare);
 
     // if we can calculate performance membership
-    if(fuzzy.computerTypes[this.t_type]){
+    if(fuzzy.computerTypes[this.t_type] && fuzzy.weightTypes[wType]){
+
       // performance membership
-      var memberShip = fuzzy.memberShipValue(result.result, fuzzy.computerTypes[this.t_type]);
+      var PmemberShip = fuzzy.memberShipValue(result.result, fuzzy.computerTypes[this.t_type]);
+      var WmemberShip = fuzzy.memberShipValue(wValue, fuzzy.weightTypes[wType]);
+
+      var min = Math.min(PmemberShip, WmemberShip);
+      console.log(min)
     }
 
     this.ui.value.text(result.result);
     this.ui.performancePlace.fadeIn('slow');
 
+    return false;
+  },
+
+  'weight' : function(ev){
+    var sl = $(ev.currentTarget).val();
+    var weight = {
+      start : 0,
+      end : 0
+    };
+    if(sl == 'light'){
+      weight.start = 1000;
+      weight.end = 2000;
+    }else if(sl == 'middle'){
+      weight.start = 1500;
+      weight.end = 3200;
+    }else if(sl == 'big'){
+      weight.start = 2800;
+      weight.end = 5000;
+    }
+    weight.start /= 1000;
+    weight.end /= 1000;
+    this.ui.input.text(
+      'W can be between ' + weight.start + ' kg and ' + weight.end + ' kg' );
     return false;
   }
 });
