@@ -38,12 +38,18 @@ collection['content-params'] = Marionette.ItemView.extend({
     this.t_type = opts.type;
   },
 
+  onRender: function(){
+    this.weight();
+  },
+
   events : {
     'click #find-something' : 'find',
     'change .select-on-change' : 'weight'
   },
 
   'find' : function(){
+    var _this = this;
+
     this.ui.performancePlace.hide();
 
     var list = this.$el.find('select[name="to_parse"]');
@@ -67,17 +73,27 @@ collection['content-params'] = Marionette.ItemView.extend({
       var WmemberShip = fuzzy.memberShipValue(wValue, fuzzy.weightTypes[wType]);
 
       var min = Math.min(PmemberShip, WmemberShip);
-      console.log(min)
+
+      var _f_types = {
+        weight : wType,
+        performance : _this.t_type
+      };
+
+      var _f_membership = {
+        weight : WmemberShip,
+        performance : PmemberShip
+      };
+
+      _this.process(_f_types, _f_membership);
+
     }
-
-    this.ui.value.text(result.result);
-    this.ui.performancePlace.fadeIn('slow');
-
     return false;
   },
 
   'weight' : function(ev){
-    var sl = $(ev.currentTarget).val();
+    var sl = 'light';
+    if(ev)
+      sl = $(ev.currentTarget).val();
     var weight = {
       start : 0,
       end : 0
@@ -92,11 +108,25 @@ collection['content-params'] = Marionette.ItemView.extend({
       weight.start = 2800;
       weight.end = 5000;
     }
+
+    var rr = Math.floor(Math.random() * (weight.end - weight.start + 1)) + weight.start;
+
     weight.start /= 1000;
     weight.end /= 1000;
     this.ui.input.text(
-      'W can be between ' + weight.start + ' kg and ' + weight.end + ' kg' );
+      'W can be between ' + weight.start + ' kg and ' + weight.end + ' kg'
+    );
+    this.ui.wInput.val(rr);
     return false;
+  },
+
+  'process' : function(f_types, f_membership){
+
+    // check by using rules
+    var priceType     = fuzzy.checkRule(f_types.performance, f_types.weight);
+    var minMembership = Math.min(f_membership.performance, f_membership.weight);
+    var st = fuzzy.def(priceType, minMembership);
+    Backbone.history.navigate('#results/' + Math.floor(st), { trigger: true });
   }
 });
 

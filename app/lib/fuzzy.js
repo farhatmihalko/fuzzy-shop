@@ -220,9 +220,139 @@ function getMembershipValue(value, _type_){
 }
 
 
+
+/*
+  Define the prices sets
+*/
+
+var price_sets = {};
+price_sets['low-price'] = {
+  name : 'low-price',
+  rise : {
+    start : -1,
+    end : -1
+  },
+  full : {
+    start : 0,
+    end : 60000
+  },
+  end : {
+    start : 60000,
+    end : 80000
+  }
+}
+price_sets['middle-price'] = {
+  name : 'middle-price',
+  rise : {
+    start : 60000,
+    end   : 78000
+  },
+  full : {
+    start : 78000,
+    end : 85000
+  },
+  end : {
+    start : 85000,
+    end : 120000
+  }
+}
+price_sets['high-price'] = {
+  name : 'high-price',
+  rise : {
+    start : 95000,
+    end : 125000
+  },
+  full : {
+    start : 125000,
+    end : 200000
+  },
+  end : {
+    start : -1,
+    end : -1
+  }
+}
+
+/*
+  Rules
+*/
+
+function checkRule(performance, weight){
+  if(performance == 'budget'){
+    return price_sets['low-price'];
+  }
+  else if(performance == 'office'){
+    if(weight == 'light' || weight == 'middle'){
+      return price_sets['middle-price'];
+    }
+    else
+      return price_sets['low-price'];
+  }
+  else if(performance == 'multimedia'){
+    if(weight == 'big'){
+      return price_sets['low-price'];
+    }
+    return price_sets['middle-price'];
+  }
+  else if(performance == 'game'){
+    if(weight == 'big'){
+      return price_sets['middle-price'];
+    }
+    else
+      return price_sets['high-price'];
+  }
+  if(performance == 'super'){
+    return price_sets['high-price'];
+  }
+
+  // if nothing!? some magic here!
+  return price_sets['high-price'];
+}
+
+
+function def(set, level){
+  function st_need(ffz, set){
+    var h = 0;
+    var f = 0;
+    for(var i = ffz.start; i <= ffz.end; i+=1){
+      var membership = getMembershipValue(i, set);
+      if(membership > level)
+        membership = level;
+      var total = (membership * i);
+      h += total;
+      f += membership;
+    }
+    return {
+      head : h,
+      footer : f
+    }
+  }
+  // deffuzyfication
+  var head = 0;
+  var footer = 0;
+  if(set.rise){
+    var rise = st_need(set.rise, set);
+    head += rise.head;
+    footer += rise.footer;
+  }
+  if(set.full){
+    var full = st_need(set.full, set);
+    head += full.head;
+    footer += full.footer;
+  }
+  if(set.end){
+    var end = st_need(set.end, set);
+    head += end.head;
+    footer += end.footer;
+  }
+  return head / footer;
+}
+
 module.exports = {
   calculatePerformanceOfComputer : getPerformanceOfComputer,
   computerTypes : types,
   weightTypes : weight_types,
-  memberShipValue : getMembershipValue
+  priceTypes : price_sets,
+  memberShipValue : getMembershipValue,
+  checkRule : checkRule,
+  def : def
 }

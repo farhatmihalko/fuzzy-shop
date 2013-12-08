@@ -434,3 +434,30 @@ body {
 
 
 
+
+
+.product-box{
+  background : white;
+  padding : 10px 20px;
+}
+
+.p{
+  line-height: 1.5em;
+  color : gray;
+  padding: 30px 10px;
+}
+.price{
+  line-height: 1.5em;
+  font-weight: bold;
+  padding : 0px 10px;
+}
+
+body{
+  font-family: "Century Gothic","Apple Gothic",AppleGothic,"URW Gothic L","Avant Garde",Futura,sans-serif!important;
+  padding-bottom: 100px;
+}
+
+.p-about{
+  line-height: 1.5em;
+  font-size : 19px;
+}

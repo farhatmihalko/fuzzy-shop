@@ -38,7 +38,9 @@ mn = new mn([
 module.exports = Backbone.Router.extend({
   routes: {
     '': 'home',
-    'show/(:type)' : 'show'
+    'show/(:type)' : 'show',
+    'results/(:price)' : 'result-page',
+    'about' : 'about'
   },
 
 	home: function() {
@@ -66,5 +68,28 @@ module.exports = Backbone.Router.extend({
 
     layout.menu.show(mst);
     layout.content.show(content);
+  },
+
+  'result-page' : function(price){
+    var result   = require('views/main/result');
+    var products = require('lib/store');
+
+    result = new result();
+    app.layout.content.show(result);
+
+    var items = require('views/main/products/items');
+
+    products.method();
+
+    var items_r = new items['many-products']({ collection: products, price: price });
+
+    result.content.show(items_r);
+  },
+  'about' : function(){
+    var about = Marionette.ItemView.extend({
+      template: 'views/templates/about'
+    });
+    about = new about();
+    app.layout.content.show(about);
   }
 });
